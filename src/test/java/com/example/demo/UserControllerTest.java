@@ -13,35 +13,39 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(SubjectController.class)
-class BookControllerTest {
+@WebMvcTest(UserController.class)
+public class UserControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
-    // NOTE: @MockBean is a spring class. Not a Mockito class
     @MockBean
-    private SubjectService subjectService;
+    private UserService userService;
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Test
     @SneakyThrows
-    public void createSubject() {
-        when(subjectService.createSubject(any())).thenReturn(1L);
+    public void createUser() {
+        when(userService.createUser(any())).thenReturn(1L);
 
-        SubjectDto dto = new SubjectDto().setName("Matematika");
+        UserDto dto = new UserDto().setFirstName("Slavo")
+                .setLastName("Borodin")
+                .setEmail("vborodin@student.umb.sk")
+                .setId(1L);
         String json = mapper.writeValueAsString(dto);
 
         mockMvc.perform(
-                        post("/api/subjects")
+                        post("/api/users")
                                 .content(json)
                                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$", Matchers.equalTo(1)));
 
-        verify(subjectService, times(1)).createSubject(any());
+        verify(userService, times(1)).createUser(any());
     }
+
 }
