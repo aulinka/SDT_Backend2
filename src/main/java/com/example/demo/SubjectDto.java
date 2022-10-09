@@ -22,8 +22,9 @@ public class SubjectDto {
         return credit;
     }
 
-    public void setName(String name) {
+    public SubjectDto setName(String name) {
         this.name = name;
+        return null;
     }
 
     public void setId(Long id) {
