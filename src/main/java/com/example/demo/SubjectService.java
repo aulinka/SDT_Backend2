@@ -66,8 +66,7 @@ public class SubjectService {
         subjectEntity.setSubjectHours(subject.getHours());
         subjectEntity.setSubjectCredits(subject.getCredit());
 
-        this.subjectRepository.save(subjectEntity);
-        return subjectEntity.getId();
+        return this.subjectRepository.save(subjectEntity).getId();
     }
 
     @Transactional
